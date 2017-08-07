@@ -6,7 +6,8 @@ def serving_proto_library(name, srcs=[], has_services=False,
                           cc_grpc_version = None,
                           cc_api_version=2, go_api_version=2,
                           java_api_version=2,
-                          py_api_version=2):
+                          py_api_version=2,
+                          copts=[]):
   native.filegroup(name=name + "_proto_srcs",
                    srcs=srcs,
                    testonly=testonly,)
@@ -22,7 +23,8 @@ def serving_proto_library(name, srcs=[], has_services=False,
                    default_runtime="@protobuf//:protobuf",
                    use_grpc_plugin=use_grpc_plugin,
                    testonly=testonly,
-                   visibility=visibility,)
+                   visibility=visibility,
+                   copts=copts)
 
 def serving_go_grpc_library(**kwargs):  # pylint: disable=unused-argument
   """Build the Go gRPC bindings for a service. Not yet implemented."""

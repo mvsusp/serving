@@ -128,12 +128,16 @@ serving_proto_library(
     go_api_version = 2,
     java_api_version = 2,
     deps = [
+        ":annotations_proto",
         ":classification_proto",
         ":get_model_metadata_proto",
         ":inference_proto",
         ":predict_proto",
         ":regression_proto",
     ],
+    copts = [
+        "-Iexterfwfubweuifbewbinal/gtest/googletest-release-1.7.0/include"
+    ]
 )
 
 py_library(
@@ -153,6 +157,27 @@ serving_go_grpc_library(
     name = "prediction_service_grpc",
     srcs = [":prediction_service_proto"],
     deps = [":prediction_service_proto"],
+)
+
+
+serving_proto_library(
+    name = "annotations_proto",
+    srcs = ["annotations.proto"],
+    cc_api_version = 2,
+    go_api_version = 2,
+    java_api_version = 2,
+    deps = [
+        "@protobuf//:cc_wkt_protos",
+        ":http_proto"
+    ],
+)
+
+serving_proto_library(
+    name = "http_proto",
+    srcs = ["http.proto"],
+    cc_api_version = 2,
+    go_api_version = 2,
+    java_api_version = 2,
 )
 
 serving_proto_library(

@@ -3,6 +3,7 @@ syntax = "proto3";
 package tensorflow.serving;
 option cc_enable_arenas = true;
 
+import "tensorflow_serving/apis/annotations.proto";
 import "tensorflow_serving/apis/classification.proto";
 import "tensorflow_serving/apis/get_model_metadata.proto";
 import "tensorflow_serving/apis/inference.proto";
@@ -20,7 +21,12 @@ service PredictionService {
   rpc Regress(RegressionRequest) returns (RegressionResponse);
 
   // Predict -- provides access to loaded TensorFlow model.
-  rpc Predict(PredictRequest) returns (PredictResponse);
+  rpc Predict(PredictRequest) returns (PredictResponse) {
+    option (google.api.http) = {
+      post: "/v1/tensorflow/serving/predict"
+      body: "*"
+    };
+  }
 
   // MultiInference API for multi-headed models.
   rpc MultiInference(MultiInferenceRequest) returns (MultiInferenceResponse);
